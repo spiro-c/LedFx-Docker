@@ -10,7 +10,7 @@ updates:
   schedule:
     interval: daily
     time: "06:00"
-- package-ecosystem: python
+- package-ecosystem: pip
   directory: "/"
   schedule:
     interval: daily
