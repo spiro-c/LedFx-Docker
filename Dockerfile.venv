@@ -7,8 +7,8 @@ RUN python -m venv /ledfx/venv
 ENV PATH="/ledfx/venv/bin:$PATH"
 # Install dependencies and ledfx, remove uneeded packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        alsa-utils \
+        alsa-utils=1.1.8-2 \
       #   libasound2 \
       #   libasound2-plugins \
-        portaudio19-dev \
-        pulseaudio && apt-get clean -y && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+        portaudio19-dev=19.6.0-1 \
+        pulseaudio=12.2-4+deb10u1 && apt-get clean -y && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*

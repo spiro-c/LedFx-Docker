@@ -1,9 +1,9 @@
 # Create docker image from python3.9-slim
 FROM python:3.9-slim
-
+COPY requirements.txt /
 # Create python venv and add it to PATH
-RUN python -m venv /ledfx/venv \
-        && python -m pip install --no-cache-dir -U pip==21.0.1 wheel==0.36.2 setuptools==54.1.1
+RUN python -m venv /ledfx/venv 
+
 ENV PATH="/ledfx/venv/bin:$PATH"
 
 # Install dependencies and ledfx, remove uneeded packages
@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         portaudio19-dev=19.6.0-1 \
         # pulseaudio \
         python3-dev=3.7.3-1 \
-        && pip install --no-cache-dir ledfx==0.10.4 \
+        && pip install --no-cache-dir --requirement requirements.txt \
         && apt-get purge -y gcc python3-dev && apt-get clean -y && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
  
 

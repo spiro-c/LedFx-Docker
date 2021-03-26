@@ -1,0 +1,4 @@
+pip==21.0.1 
+wheel==0.36.2 
+setuptools==54.1.1
+ledfx==0.10.4
