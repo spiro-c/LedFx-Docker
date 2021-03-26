@@ -3,19 +3,21 @@ FROM python:3.9-slim
 
 # Create python venv and add it to PATH
 RUN python -m venv /ledfx/venv \
-        && python -m pip install --no-cache-dir -U pip wheel setuptools
+        && python -m pip install --no-cache-dir -U pip==21.0.1 wheel==0.36.2 setuptools==54.1.1
 ENV PATH="/ledfx/venv/bin:$PATH"
 
 # Install dependencies and ledfx, remove uneeded packages
 #
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        gcc \
+        gcc=4:8.3.0-1 \
         # alsa-utils \
-        libatlas3-base \
-        portaudio19-dev \
+        libatlas3-base=3.10.3-8 \
+        portaudio19-dev=19.6.0-1 \
         # pulseaudio \
-        python3-dev && apt-get purge -y gcc python3-dev && apt-get clean -y && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
-RUN pip install --no-cache-dir ledfx-dev
+        python3-dev=3.7.3-1 \
+        && pip install --no-cache-dir ledfx==0.10.4 \
+        && apt-get purge -y gcc python3-dev && apt-get clean -y && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+ 
 
 # Add user `ledfx` and create home folder
 RUN useradd -l --create-home ledfx
