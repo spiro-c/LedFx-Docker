@@ -1,13 +1,18 @@
-version: '3.4'
+version: '3'
 
 services:
-  ledfxdev4:
-    image: ledfxdev4
+  ledfx:
+    image: ledfx
+    container_name: LedFX
+    network_mode: host
+    volumes:
+      - ./config:/home/ledfx/.ledfx
+      - /var/run/user/$(id -u)/pulse:/home/ledfx/audio
+    environment:
+      - PULSE_SERVER=unix:/home/ledfx/audio/native
+      - PULSE_COOKIE=/tmp/pulseaudio.cookie
     build:
       context: .
-      dockerfile: ./Dockerfile-4stage
-    entrypoint: ledfx --host 0.0.0.0 -p 8888
-    hostname: ledfx
+      args:
+        VERSION: master
     restart: unless-stopped
-    ports:
-      - 8888:8888

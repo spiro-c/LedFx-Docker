@@ -1,5 +1,6 @@
 # Create docker image from python3.9-slim
 FROM python:3.9-slim AS builder
+ARG VERSION=master
 COPY requirements.txt /tmp/
 # Create python venv and add it to PATH
 SHELL ["/bin/bash", "-c"]
@@ -38,9 +39,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libsamplerate0-dev=0.1.9-2 \ 
         \
         && pip install --no-cache-dir -r /tmp/requirements.txt \
-        && pip install --no-cache-dir ledfx==0.10.4 \
+        && pip install --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
         \
-        # Clean the test and .pyc files to re
+        # Clean the test and .pyc files for a smaller final image 
         && find /usr/local/lib/python3.9/ -type d -name tests -depth -exec rm -rf {} \; \
         && find /usr/local/lib/python3.9/ -type d -name test -depth -exec rm -rf {} \; \
         && find /usr/local/lib/python3.9/ -name __pycache__ -depth -exec rm -rf {} \; \
@@ -49,6 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && find /ledfx/venv/lib/python3.9/ -type d -name test -depth -exec rm -rf {} \; \
         && find /ledfx/venv/lib/python3.9/ -name __pycache__ -depth -exec rm -rf {} \; \
         && find /ledfx/venv/lib/python3.9/ -name "*.pyc" -depth -exec rm -f {} \; \
+        # Remove not needed packages
         && apt-get purge -y \
         gcc \
         git \
