@@ -119,4 +119,4 @@ RUN adduser ledfx pulse-access
 USER ledfx
 # Expose port 8888 for web server
 EXPOSE 8888/tcp
-ENTRYPOINT [ "/usr/local/bin/ledfx.sh"]
+ENTRYPOINT [ "/bin/sh" "-c" "/usr/local/bin/ledfx.sh"]
