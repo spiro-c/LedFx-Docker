@@ -2,6 +2,7 @@
 FROM python:3.9-slim AS builder
 COPY requirements.txt /tmp/
 # Create python venv and add it to PATH
+SHELL ["/bin/bash", "-c"]
 RUN python -m venv /ledfx/venv 
 
 ENV PATH="/ledfx/venv/bin:$PATH"
@@ -119,4 +120,4 @@ RUN adduser ledfx pulse-access
 USER ledfx
 # Expose port 8888 for web server
 EXPOSE 8888/tcp
-ENTRYPOINT [ "/bin/sh" "-c" "/usr/local/bin/ledfx.sh"]
+ENTRYPOINT [ "/usr/local/bin/ledfx.sh"]
