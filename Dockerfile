@@ -85,7 +85,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         portaudio19-dev=19.6.0-1+deb10u1 \
         pulseaudio=12.2-4+deb10u1 \
         alsa-utils=1.1.8-2 \
-        libavformat58 \
+        libavformat58=7:4.1.6-1~deb10u1 \
         avahi-daemon=0.7-4+deb10u1 \
         libavahi-client3=0.7-4+deb10u1 \
         libnss-mdns=0.14.1-1 \
@@ -119,4 +119,4 @@ RUN adduser ledfx pulse-access
 USER ledfx
 # Expose port 8888 for web server
 EXPOSE 8888/tcp
-ENTRYPOINT [ "ledfx.sh"]
+ENTRYPOINT [ "/usr/local/bin/ledfx.sh"]
