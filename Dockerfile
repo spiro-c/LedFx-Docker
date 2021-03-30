@@ -27,8 +27,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libopenjp2-7-dev=2.3.0-2+deb10u1 \
         tcl8.6-dev=8.6.9+dfsg-2 \
         tk8.6-dev=8.6.9-2 \
-        # aubio dependencies on linux/arm/v7
         libtiff5-dev=4.1.0+git191117-2~deb10u2 \
+        # aubio dependencies on linux/arm/v7
+        python3-aubio=0.4.6-2 \
+        python-aubio=0.4.6-2 \
+        aubio-tools=0.4.6-2 \
         libavcodec-dev=7:4.1.6-1~deb10u1 \
         libavformat-dev=7:4.1.6-1~deb10u1 \
         libavutil-dev=7:4.1.6-1~deb10u1 \
@@ -54,6 +57,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get purge -y \
         gcc \
         git \
+        python3-aubio python-aubio aubio-tools \
         libavcodec-dev \
         libavformat-dev \
         libavutil-dev \
