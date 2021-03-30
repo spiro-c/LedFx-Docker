@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         zlib1g-dev=1:1.2.11.dfsg-1 \
         portaudio19-dev=19.6.0-1+deb10u1 \
         python3-dev=3.7.3-1 \
-        # Pillow dependencies for dev branch on linux/arm/v7
+        \
+        # Pillow dependencies for dev branch 
         libfreetype6-dev=2.9.1-3+deb10u2 \
         libfribidi-dev=1.0.5-3.1+deb10u1 \
         libharfbuzz-dev=2.3.1-1 \
@@ -28,7 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         tcl8.6-dev=8.6.9+dfsg-2 \
         tk8.6-dev=8.6.9-2 \
         libtiff5-dev=4.1.0+git191117-2~deb10u2 \
-        # aubio dependencies on linux/arm/v7
+        \
+        # aubio dependencies 
         python3-aubio=0.4.6-2 \
         python-aubio=0.4.6-2 \
         aubio-tools=0.4.6-2 \
@@ -53,11 +55,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && find /ledfx/venv/lib/python3.9/ -type d -name test -depth -exec rm -rf {} \; \
         && find /ledfx/venv/lib/python3.9/ -name __pycache__ -depth -exec rm -rf {} \; \
         && find /ledfx/venv/lib/python3.9/ -name "*.pyc" -depth -exec rm -f {} \; \
+        \
         # Remove not needed packages
         && apt-get purge -y \
         gcc \
         git \
-        python3-aubio python-aubio aubio-tools \
+        python3-aubio \
+        python-aubio \
+        aubio-tools \
         libavcodec-dev \
         libavformat-dev \
         libavutil-dev \
@@ -86,9 +91,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         /var/{cache,log}/* \
         /var/lib/apt/lists/* \
         /root/.cache \
-        && find /tmp/ -mindepth 1  -delete
-        # Runtime dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+        && find /tmp/ -mindepth 1  -delete 
+
+FROM python:3.9-slim AS dist
+SHELL ["/bin/bash", "-c"]
+# Runtime dependencies
+RUN     apt-get update && apt-get install -y --no-install-recommends \
         portaudio19-dev=19.6.0-1+deb10u1 \
         pulseaudio=12.2-4+deb10u1 \
         alsa-utils=1.1.8-2 \
@@ -96,6 +104,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         avahi-daemon=0.7-4+deb10u1 \
         libavahi-client3=0.7-4+deb10u1 \
         libnss-mdns=0.14.1-1 \
+        \
         # https://gnanesh.me/avahi-docker-non-root.html
         # Installing avahi-daemon to enable auto discovery on linux host if network_mode: host is pass to docker container                    
         # Allow hostnames with more labels to be resolved so that we can resolve node1.mycluster.local.
@@ -108,6 +117,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && mkdir -p /var/run/avahi-daemon \
         && chown avahi:avahi /var/run/avahi-daemon \
         && chmod 777 /var/run/avahi-daemon \
+        \
+        # Add user `ledfx` create home folder and add to pulse-access groupe
+        && useradd -l --create-home ledfx \
+        && adduser ledfx pulse-access \
+        \
+        # Clean Up
         && apt-get clean -y \
         && apt-get autoremove -y \
         && rm -fr \
@@ -115,14 +130,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         /var/lib/apt/lists/* \
         /root/.cache \
         && find /tmp/ -mindepth 1  -delete
-# Add user `ledfx` and create home folder
-RUN useradd -l --create-home ledfx
-# Add user pulseclinet config
+
+COPY --from=builder /ledfx/venv/ /ledfx/venv/
+ENV PATH="/ledfx/venv/bin:$PATH"
+# Add pulseclinet config
 COPY pulse-client.conf /etc/pulse/client.conf
 COPY ledfx.sh /usr/local/bin/ledfx.sh
 # Set the working directory in the container
 WORKDIR /home/ledfx
-RUN adduser ledfx pulse-access 
 USER ledfx
 # Expose port 8888 for web server
 EXPOSE 8888/tcp

@@ -7,7 +7,7 @@ services:
     network_mode: host
     volumes:
       - ./config:/home/ledfx/.ledfx
-      - /var/run/user/1000/pulse:/home/ledfx/audio
+      - /var/run/user/$UID/pulse:/home/ledfx/audio
     environment:
       - PULSE_SERVER=unix:/home/ledfx/audio/native
       - PULSE_COOKIE=/tmp/pulseaudio.cookie
