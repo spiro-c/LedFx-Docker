@@ -1,4 +1,4 @@
 pip==21.0.1 
 wheel==0.36.2 
 setuptools==54.2.0
-pyupdate
+pyupdate==1.4.0
