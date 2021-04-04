@@ -19,10 +19,10 @@ jobs:
         name: Cache Docker layers
         uses: actions/cache@v2
         with:
-          path: /tmp/.buildx-cache
+          path: /tmp/.buildx-dev-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-
+            ${{ runner.os }}-buildx-dev-
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -41,7 +41,7 @@ jobs:
           build-args: VERSION=dev
           push: true
           tags: spirocekano/ledfx:dev
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          cache-from: type=local,src=/tmp/.buildx-cache-dev
+          cache-to: type=local,dest=/tmp/.buildx-cache-dev-new,mode=max
 
 
