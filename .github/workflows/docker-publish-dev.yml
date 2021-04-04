@@ -1,4 +1,4 @@
-name: Docker
+name: Docker dev
 
 on:
   push:
@@ -30,9 +30,10 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
+          build-args: VERSION=dev
           push: true
-          tags: spirocekano/ledfx:latest,spirocekano/ledfx:0.10.4
-          cache-from: type=registry,ref=spirocekano/ledfx:latest
+          tags: spirocekano/ledfx:dev
+          cache-from: type=registry,ref=spirocekano/ledfx:dev
           cache-to: type=inline
 
 

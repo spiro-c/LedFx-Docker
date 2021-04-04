@@ -1,5 +1,5 @@
 # Create docker image from python3.9-slim
-FROM python:3.9-slim AS builder
+FROM python:3.9-buster AS builder
 ARG VERSION=master
 COPY requirements.txt /tmp/
 # Create python venv and add it to PATH
