@@ -41,7 +41,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libavresample-dev=7:4.1.6-1~deb10u1 \
         libsndfile1-dev=1.0.28-6 \
         librubberband-dev=1.8.1-7 \
-        libsamplerate0-dev=0.1.9-2 
+        libsamplerate0-dev=0.1.9-2 \
+        && rm -fr \
+        /var/{cache,log}/* \
+        /var/lib/apt/lists/*
 RUN  pip install --no-cache-dir -r /tmp/requirements.txt 
 RUN  pip install --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
         \
