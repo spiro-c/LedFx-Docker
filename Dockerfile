@@ -1,7 +1,6 @@
 # Create docker image from python3.9-slim
 FROM python:3.9-buster AS builder
 ARG VERSION=master
-COPY requirements.txt /tmp/
 # Create python venv and add it to PATH
 SHELL ["/bin/bash", "-c"]
 RUN python -m venv /ledfx/venv 
@@ -45,6 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && rm -fr \
         /var/{cache,log}/* \
         /var/lib/apt/lists/*
+COPY requirements.txt /tmp/
 RUN  pip install --no-cache-dir -r /tmp/requirements.txt 
 RUN  pip install --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
         \
