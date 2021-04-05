@@ -41,10 +41,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libavresample-dev=7:4.1.6-1~deb10u1 \
         libsndfile1-dev=1.0.28-6 \
         librubberband-dev=1.8.1-7 \
-        libsamplerate0-dev=0.1.9-2 \ 
-        \
-        && pip install --no-cache-dir -r /tmp/requirements.txt \
-        && pip install --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
+        libsamplerate0-dev=0.1.9-2 
+RUN  pip install --no-cache-dir -r /tmp/requirements.txt 
+RUN  pip install --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
         \
         # Clean the test and .pyc files for a smaller final image 
         && find /usr/local/lib/python3.9/ -type d -name tests -depth -exec rm -rf {} \; \
