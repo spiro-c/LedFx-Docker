@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libjpeg-turbo-progs=1:1.5.2-2+deb10u1 \
         libjpeg62-turbo-dev=1:1.5.2-2+deb10u1 \
         liblcms2-dev=2.9-3 \
-        libopenjp2-7-dev=2.3.0-2+deb10u1 \
+        libopenjp2-7-dev=2.3.0-2+deb10u2 \
         tcl8.6-dev=8.6.9+dfsg-2 \
         tk8.6-dev=8.6.9-2 \
         libtiff5-dev=4.1.0+git191117-2~deb10u2 \
@@ -45,8 +45,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         /var/{cache,log}/* \
         /var/lib/apt/lists/*
 COPY requirements.txt /tmp/
-RUN  pip install --no-cache-dir -r /tmp/requirements.txt 
-RUN  pip install --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
+RUN  pip install  -r /tmp/requirements.txt 
+RUN  pip install -U --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
         \
         # Clean the test and .pyc files for a smaller final image 
         && find /usr/local/lib/python3.9/ -type d -name tests -depth -exec rm -rf {} \; \
