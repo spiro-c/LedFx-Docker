@@ -45,8 +45,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         /var/{cache,log}/* \
         /var/lib/apt/lists/*
 COPY requirements.txt /tmp/
-RUN  pip install  --no-cache-dir -r /tmp/requirements.txt 
-RUN  pip install -U --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
+RUN  pip install  --no-cache-dir -r /tmp/requirements.txt \
+&&  pip install -U --no-cache-dir git+https://github.com/LedFx/LedFx@${VERSION} \
         \
         # Clean the test and .pyc files for a smaller final image 
         && find /usr/local/lib/python3.9/ -type d -name tests -depth -exec rm -rf {} \; \
