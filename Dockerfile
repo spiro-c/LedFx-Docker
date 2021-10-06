@@ -1,5 +1,5 @@
 # Create docker image from python3.9-slim
-FROM python:3.9-buster AS builder
+FROM python:3.10.0-buster AS builder
 ARG VERSION=master
 # Create python venv and add it to PATH
 SHELL ["/bin/bash", "-c"]
@@ -95,7 +95,7 @@ RUN  pip install  --no-cache-dir -r /tmp/requirements.txt \
         /root/.cache \
         && find /tmp/ -mindepth 1  -delete 
 
-FROM python:3.9-slim AS dist
+FROM python:3.10.0-buster AS dist
 SHELL ["/bin/bash", "-c"]
 # Runtime dependencies
 RUN     apt-get update && apt-get install -y --no-install-recommends \
