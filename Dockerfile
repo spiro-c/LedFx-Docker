@@ -7,6 +7,8 @@ RUN python -m venv /ledfx/venv
 
 ENV PATH="/ledfx/venv/bin:$PATH"
 
+ENV PIP_EXTRA_INDEX_URL=https://www.piwheels.org/simple
+
 # Install dependencies and ledfx, remove uneeded packages
 #
 RUN \
